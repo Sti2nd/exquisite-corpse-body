@@ -30,3 +30,12 @@
     transform: rotate(360deg);
   }
 }
+
+#picturePreview {
+  width: 18em;
+  height: 32em;
+}
+
+#takenPictureFrame {
+  max-width: 100%;
+}
