@@ -3,22 +3,6 @@ import styled from "styled-components";
 
 
 
-
-const StyledCamera = styled.div.attrs({id : "StyledCamera"})`
-#picturePreview {
-  width: 18em;
-  height: 32em;
-}
-
-#takenPictureFrame {
-  max-width: 100%;
-}
-`
-
-
-
-
-
 class Camera extends Component {
 
   componentDidMount(){
@@ -33,8 +17,8 @@ class Camera extends Component {
   }
 
   showCamera = () => {
-    let video = document.getElementById("picturePreview");
-    var constraints = {
+    let video = document.getElementById("cameraStreamView");
+    let constraints = {
       audio: false,
       video: { 
         facingMode: "environment",
@@ -44,6 +28,7 @@ class Camera extends Component {
       }
     }
     navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+      // video element is showing the camera stream
       video.srcObject = stream;
     }).catch((err) => {
       console.log("It seems you don't have a camera")
@@ -54,7 +39,7 @@ class Camera extends Component {
     // Initialize
     let canvas = document.getElementById("hiddenCanvas");
     let context = canvas.getContext("2d");
-    let video = document.getElementById("picturePreview");
+    let video = document.getElementById("cameraStreamView");
     
     // Set canvas the same size as video inputstream
     canvas.width = this.state.videoWidth;
@@ -84,7 +69,7 @@ class Camera extends Component {
   }
 
   componentWillUnmount(){
-    document.getElementById("picturePreview").getVideoTracks().array.forEach(track => {
+    document.getElementById("cameraStreamView").getVideoTracks().array.forEach(track => {
       track.stop();
     });
   }
@@ -92,9 +77,14 @@ class Camera extends Component {
   render() {
     return (
         <StyledCamera>
-          <div id="cameraView">
-              <button onClick={this.takePicture} id="takePictureButton">Take picture</button>
-              <video onLoadedData={this.setVideostreamMetadata} playsInline autoPlay muted id="picturePreview"></video>
+          <div id="cameraContainer">
+            <div id="exitCameraButtonContainer">
+              <button id="exitCameraButton" onClick={/* Go back to App */}>X</button>
+            </div>
+              <video onLoadedData={this.setVideostreamMetadata} playsInline autoPlay muted id="cameraStreamView"></video>
+              <div id="takePictureButtonContainer">
+                <button onClick={this.takePicture} id="takePictureButton">Take picture</button>
+              </div>
               <canvas id="hiddenCanvas" hidden></canvas>
               <img id="takenPictureFrame" alt=""></img>
           </div>
@@ -102,5 +92,36 @@ class Camera extends Component {
     )
   }
 }
+
+
+
+
+const StyledCamera = styled.div.attrs({id : "StyledCamera"})`
+#cameraContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+
+#cameraStreamView {
+  object-fit: contain;
+  flex-grow: 1;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#takePictureButtonContainer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+#takenPictureFrame {
+  max-width: 100%;
+}
+`
+
+
 
 export default Camera;
