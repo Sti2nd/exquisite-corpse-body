@@ -7,10 +7,20 @@ class Camera extends Component {
   }
 
   setVideostreamMetadata = e => {
-    this.setState({
-      videoWidth: e.nativeEvent.target.videoWidth,
-      videoHeight: e.nativeEvent.target.videoHeight
-    });
+    this.setState(
+      {
+        videoWidth: e.nativeEvent.target.videoWidth,
+        videoHeight: e.nativeEvent.target.videoHeight
+      },
+      () => {
+        console.log(
+          "Video stream has width: " +
+            this.state.videoWidth +
+            ", height: " +
+            this.state.videoHeight
+        );
+      }
+    );
   };
 
   showCamera = () => {
@@ -86,7 +96,11 @@ class Camera extends Component {
     return (
       <StyledCamera>
         <div className="imageContainer">
-          <button id="exitCameraButton" className="exitButton" onClick={this.props.exitCamera}>
+          <button
+            id="exitCameraButton"
+            className="exitButton"
+            onClick={this.props.exitCamera}
+          >
             X
           </button>
           <video

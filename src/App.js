@@ -2,13 +2,20 @@ import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 
 import Camera from "./Camera";
-import Edit from "./Editor";
+import Editor from "./Editor";
+import Stitcher from "./Stitcher";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: "app"
+      view: "app",
+      originalImageDataURL: null,
+      bodyParts : {
+        head : null,
+        body : null,
+        legs: null
+      }
     };
   }
 
@@ -26,11 +33,19 @@ class App extends Component {
 
   storePicture = PNGimage => {
     // Store image
-    this.setState({ imageDataURL: PNGimage }, () => {
+    this.setState({ originalImageDataURL: PNGimage }, () => {
       // then show editor
       this.setState({ view: "editor" });
     });
   };
+
+  storeBodyParts = bodyParts => {
+    // Store bodyParts images
+    this.setState({ bodyParts : bodyParts}, () => {
+      // Then show Stitcher
+      this.setState({ view: "stitcher"})
+    })
+  }
 
   render() {
     let viewComponent;
@@ -53,9 +68,16 @@ class App extends Component {
       );
     } else if (this.state.view === "editor") {
       viewComponent = (
-        <Edit
-          imageDataURL={this.state.imageDataURL}
+        <Editor
+          imageDataURL={this.state.originalImageDataURL}
           exitEditor={this.showCamera}
+          storeBodyParts={this.storeBodyParts}
+        />
+      );
+    } else if (this.state.view === "stitcher") {
+      viewComponent = (
+        <Stitcher
+          bodyParts={this.state.bodyParts}
         />
       );
     }
