@@ -11,7 +11,6 @@ class Editor extends Component {
       body: null,
       legs: null
     };
-    let cropperInstance = null;
   }
 
   _cropperReady = () => {
@@ -83,9 +82,9 @@ class Editor extends Component {
           />
         </div>
         <div id="preview" />
-        <img src={this.state.head} />
-        <img src={this.state.body} />
-        <img src={this.state.legs} />
+        <img src={this.state.head} alt=""/>
+        <img src={this.state.body} alt=""/>
+        <img src={this.state.legs} alt=""/>
       </StyledEditor>
     );
   }
