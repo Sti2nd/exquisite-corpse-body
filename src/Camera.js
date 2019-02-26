@@ -69,15 +69,7 @@ class Camera extends Component {
     canvas.toBlob(blob => {
       var imageDataURL = URL.createObjectURL(blob);
 
-      this.props.storePicture(imageDataURL);
-      /*
-      // Set dataURL as source of image element, showing the captured image
-      document.getElementById("takenPictureFrame").setAttribute("src", imageDataURL);
-      
-      // Set href for download button
-      var downloadButton = document.getElementById("downloadButton");
-      downloadButton.href = imageDataURL;
-      downloadButton.removeAttribute("hidden");*/
+      this.props.storeOriginalPicture(imageDataURL);
     });
   };
 

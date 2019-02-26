@@ -64,7 +64,7 @@ class Editor extends Component {
             X
           </button>
           <div id="cropPictureButtonContainer">
-            <button onClick={this.handleButtonClick} id="takePictureButton">
+            <button onClick={this.handleButtonClick}>
               {buttonText}
             </button>
           </div>
