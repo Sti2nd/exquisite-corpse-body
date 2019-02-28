@@ -27,11 +27,12 @@ class Stitcher extends Component {
       lockSkewingX: true, // Cannot skew by holding shift
       lockSkewingY: true // Cannot skew by holding shift
     };
+    let scaleFactor = 0.4;
     // add head
     fabric.Image.fromURL(
       this.props.bodyParts.head,
       img => {
-        img.scale(0.2).set({ top: 0 });
+        img.scale(scaleFactor).set({ top: 0 });
         fabricCanvas.add(img);
       },
       fabricImageOptions
@@ -41,7 +42,7 @@ class Stitcher extends Component {
     fabric.Image.fromURL(
       this.props.bodyParts.body,
       img => {
-        img.scale(0.2).set({ top: 200 });
+        img.scale(scaleFactor).set({ top: 200 });
         fabricCanvas.add(img);
       },
       fabricImageOptions
@@ -51,7 +52,7 @@ class Stitcher extends Component {
     fabric.Image.fromURL(
       this.props.bodyParts.legs,
       img => {
-        img.scale(0.2).set({ top: 400 });
+        img.scale(scaleFactor).set({ top: 400 });
         fabricCanvas.add(img);
       },
       fabricImageOptions
@@ -110,7 +111,7 @@ class Stitcher extends Component {
   };
 
   /**
-   * Save the picture in PNG-format
+   * Save the picture in PNG-format. Allows for cropping with the cropRect.
    * @param {fabric.Canvas} canvas The canvas already containing the picture
    * @param {Object} cropRect A rect defined by a topLeft and bottomRight Point
    */

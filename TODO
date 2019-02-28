@@ -1,5 +1,6 @@
 [X] crop images automatically after stitching (get rectangle including all 
 pixels of the smaller images)
+[ ] set scale based on image size vs screen size (for stitching and rendering)
 [ ] save multiple originals, multiple bodyparts and multiple stitches
 [ ] create gallery of stitches (and reuse it for choosing originals?)
 [ ] implement slideout.js sidemenubar?
