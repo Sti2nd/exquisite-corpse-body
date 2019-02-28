@@ -78,7 +78,7 @@ class App extends Component {
             Click to start camera
           </button>
           <h3>Your images</h3>
-          <img src={this.state.stitchedImageDataURL} alt="" style={{maxWidth: "100%"}}/>
+          <img src={this.state.stitchedImageDataURL} alt="" style={{maxWidth: "100%", border: "1px solid black"}}/>
         </Fragment>
       );
     } else if (this.state.view === "camera") {
