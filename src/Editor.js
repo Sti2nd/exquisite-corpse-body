@@ -9,7 +9,8 @@ class Editor extends Component {
     this.state = {
       head: null,
       body: null,
-      legs: null
+      legs: null,
+      greatestHeight: null,
     };
   }
 
@@ -21,25 +22,47 @@ class Editor extends Component {
   handleButtonClick = () => {
     if (this.state.head === null) {
       this.setState({
-        head: this.cropperInstance.getCroppedCanvas().toDataURL()
+        head: this.cropperInstance.getCroppedCanvas().toDataURL(),
+        greatestHeight: this.cropperInstance.cropper.cropBoxData.height
       });
     } else if (this.state.body === null) {
+      let newGreatestHeight = this.getGreatestHeight();
       this.setState({
-        body: this.cropperInstance.getCroppedCanvas().toDataURL()
+        body: this.cropperInstance.getCroppedCanvas().toDataURL(),
+        greatestHeight: newGreatestHeight
       });
     } else if (this.state.legs === null) {
+      let newGreatestHeight = this.getGreatestHeight();
       this.setState({
-        legs: this.cropperInstance.getCroppedCanvas().toDataURL()
+        legs: this.cropperInstance.getCroppedCanvas().toDataURL(),
+        greatestHeight: newGreatestHeight
       });
     } else {
       // Done cropping
       this.props.storeBodyParts({
         head: this.state.head,
         body: this.state.body,
-        legs: this.state.legs
+        legs: this.state.legs,
+        greatestHeight: this.state.greatestHeight
       });
     }
   };
+
+  /**
+   * Compares the previous greatest height with the current cropperBox's height, and returns the largest
+   */
+  getGreatestHeight() {
+    let currentGreatestHeight = this.state.greatestHeight;
+    let newGreatestHeight = null;
+    let imageHeight = this.cropperInstance.cropper.cropBoxData.height;
+    if (currentGreatestHeight < imageHeight) {
+      newGreatestHeight = imageHeight;
+    }
+    else {
+      newGreatestHeight = currentGreatestHeight;
+    }
+    return newGreatestHeight;
+  }
 
   render() {
     let buttonText = "";

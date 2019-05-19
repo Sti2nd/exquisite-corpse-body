@@ -8,18 +8,22 @@ class Stitcher extends Component {
   }
 
   componentDidMount() {
+    let browserWindowHeight = Math.max(
+      document.documentElement.clientHeight,
+      window.innerHeight || 0
+    );
+
+    let browserWindowWidth = Math.max(
+      document.documentElement.clientWidth,
+      window.innerWidth || 0
+    );
+
     //TODO: recalculate height and width on browser windows resize?
     const fabricCanvas = new window.fabric.Canvas("fabricCanvas", {
       allowTouchScrolling: true,
       interactive: true,
-      height: Math.max(
-        document.documentElement.clientHeight,
-        window.innerHeight || 0
-      ),
-      width: Math.max(
-        document.documentElement.clientWidth,
-        window.innerWidth || 0
-      )
+      height: browserWindowHeight,
+      width: browserWindowWidth,
     });
 
     const fabricImageOptions = {
@@ -27,7 +31,12 @@ class Stitcher extends Component {
       lockSkewingX: true, // Cannot skew by holding shift
       lockSkewingY: true // Cannot skew by holding shift
     };
-    let scaleFactor = 0.4;
+
+    // We know that (x * bodyHeight) / canvasHeight should be <= 0.4, solve for x
+    let calculatedScale = (browserWindowHeight * 0.4) / this.props.bodyParts.greatestHeight;
+    let scaleFactor = Math.min(calculatedScale, 1);
+    console.log("Set scale to: " + scaleFactor)
+
     // add head
     fabric.Image.fromURL(
       this.props.bodyParts.head,
@@ -119,7 +128,7 @@ class Stitcher extends Component {
     // Get an image dataURL from the canvas
     var imageDataURL = canvas.toDataURL({
       // Options
-      multiplier: 2,
+      multiplier: 1, //TODO: check if this does something good to the quality
       // following four is for cropping the image
       left : cropRect.topLeft.x,
       top: cropRect.topLeft.y,

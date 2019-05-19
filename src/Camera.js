@@ -6,7 +6,7 @@ class Camera extends Component {
     this.showCamera();
   }
 
-  setVideostreamMetadata = e => {
+  setVideoStreamMetadata = e => {
     this.setState(
       {
         videoWidth: e.nativeEvent.target.videoWidth,
@@ -96,7 +96,7 @@ class Camera extends Component {
             X
           </button>
           <video
-            onLoadedData={this.setVideostreamMetadata}
+            onLoadedData={this.setVideoStreamMetadata}
             playsInline
             autoPlay
             muted
