@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "host-build": "cd build/ && http-server-ssl -S",
+    "host-build": "cd build/ && ws --https",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -29,8 +29,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "http-server-ssl": "0.0.7",
+    "babel-eslint": "^9.0.0",
     "prettier-eslint": "^8.8.2"
   }
 }
