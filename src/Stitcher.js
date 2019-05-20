@@ -23,7 +23,7 @@ class Stitcher extends Component {
       allowTouchScrolling: true,
       interactive: true,
       height: browserWindowHeight,
-      width: browserWindowWidth,
+      width: browserWindowWidth
     });
 
     const fabricImageOptions = {
@@ -33,9 +33,10 @@ class Stitcher extends Component {
     };
 
     // We know that (x * bodyHeight) / canvasHeight should be <= 0.4, solve for x
-    let calculatedScale = (browserWindowHeight * 0.4) / this.props.bodyParts.greatestHeight;
+    let calculatedScale =
+      (browserWindowHeight * 0.4) / this.props.bodyParts.greatestHeight;
     let scaleFactor = Math.min(calculatedScale, 1);
-    console.log("Set scale to: " + scaleFactor)
+    console.log("Set scale to: " + scaleFactor);
 
     // add head
     fabric.Image.fromURL(
@@ -130,7 +131,7 @@ class Stitcher extends Component {
       // Options
       multiplier: 1, //TODO: check if this does something good to the quality
       // following four is for cropping the image
-      left : cropRect.topLeft.x,
+      left: cropRect.topLeft.x,
       top: cropRect.topLeft.y,
       width: cropRect.bottomRight.x - cropRect.topLeft.x,
       height: cropRect.bottomRight.y - cropRect.topLeft.y
