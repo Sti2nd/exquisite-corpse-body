@@ -4,8 +4,10 @@ import styled from "styled-components";
 import Camera from "./Camera";
 import Editor from "./Editor";
 import Stitcher from "./Stitcher";
+import Album from "./Album";
 
-import testImage from "./testImage.json";
+import localforage from "localforage";
+//import testImage from "./testImage.json";
 
 class App extends Component {
   constructor(props) {
@@ -64,7 +66,13 @@ class App extends Component {
   storeStitchedPicture = PNGimage => {
     // Store image
     this.setState({ stitchedImageDataURL: PNGimage }, () => {
-      // then show editor
+      // then store image object in localforage
+      localforage.setItem(Date.now(), {
+        originalImageDataURL: this.state.originalImageDataURL,
+        stitchedImageDataURL: this.state.stitchedImageDataURL,
+        bodyParts: this.state.bodyParts
+      })
+      // finally show front page again
       this.setState({ view: "app" });
     });
   };
@@ -86,12 +94,7 @@ class App extends Component {
           <button onClick={this.handleButtonClick} id="startCameraButton">
             Click to start camera
           </button>
-          <h3>Your images</h3>
-          <img
-            src={this.state.stitchedImageDataURL}
-            alt=""
-            style={{ maxWidth: "100%", border: "1px solid black" }}
-          />
+          <Album></Album>
         </Fragment>
       );
     } else if (this.state.view === "camera") {
@@ -123,9 +126,9 @@ class App extends Component {
       <StyledApp>
         <div className="App">
           {viewComponent}
-          <a id="downloadButton" href="#" download="mix-max.png" hidden>
+{/*           <a id="downloadButton" href="#" download="mix-max.png" hidden>
             Download picture
-          </a>
+          </a> */}
         </div>
       </StyledApp>
     );
