@@ -36,6 +36,8 @@ class Stitcher extends Component {
     let calculatedScale =
       (browserWindowHeight * 0.4) / this.props.bodyParts.greatestHeight;
     let scaleFactor = Math.min(calculatedScale, 1);
+    console.log("browserWindowHeight: "  + browserWindowHeight, "greatestHeight" 
+    + this.props.bodyParts.greatestHeight);
     console.log("Set scale to: " + scaleFactor);
 
     // add head
@@ -161,8 +163,9 @@ class Stitcher extends Component {
 
 const StyledStitcher = styled.div.attrs({ id: "StyledStitcher" })`
   #fabricCanvas {
-    width: 500px;
-    height: 500px;
+    /* Is overrided */
+    width: 0px;
+    height: 0px;
   }
 
   #stitchPictureButtonContainer {

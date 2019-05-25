@@ -5,6 +5,8 @@ import Camera from "./Camera";
 import Editor from "./Editor";
 import Stitcher from "./Stitcher";
 
+import testImage from "./testImage.json"
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +14,7 @@ class App extends Component {
       view: "app", //should be "app"
       originalImageDataURL: null,
       stitchedImageDataURL: null,
-      bodyParts: {
+      bodyParts: { // below should all be null
         head: null,
         body: null,
         legs: null,

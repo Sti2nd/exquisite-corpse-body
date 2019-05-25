@@ -10,7 +10,7 @@ class Editor extends Component {
       head: null,
       body: null,
       legs: null,
-      greatestHeight: null,
+      greatestHeight: null
     };
   }
 
@@ -21,21 +21,28 @@ class Editor extends Component {
 
   handleButtonClick = () => {
     if (this.state.head === null) {
+      // Store head
       this.setState({
-        head: this.cropperInstance.getCroppedCanvas().toDataURL(),
-        greatestHeight: this.cropperInstance.cropper.cropBoxData.height
+        head: this.getBodyPart(),
+        greatestHeight: this.cropperInstance.getData().height
       });
     } else if (this.state.body === null) {
-      let newGreatestHeight = this.getGreatestHeight();
+      // Store body
       this.setState({
-        body: this.cropperInstance.getCroppedCanvas().toDataURL(),
-        greatestHeight: newGreatestHeight
+        body: this.getBodyPart(),
+        greatestHeight: this.getNewGreatestHeight(
+          this.cropperInstance.getData().height,
+          this.state.greatestHeight
+        )
       });
     } else if (this.state.legs === null) {
-      let newGreatestHeight = this.getGreatestHeight();
+      // Store legs
       this.setState({
-        legs: this.cropperInstance.getCroppedCanvas().toDataURL(),
-        greatestHeight: newGreatestHeight
+        legs: this.getBodyPart(),
+        greatestHeight: this.getNewGreatestHeight(
+          this.cropperInstance.getData().height,
+          this.state.greatestHeight
+        )
       });
     } else {
       // Done cropping
@@ -49,19 +56,21 @@ class Editor extends Component {
   };
 
   /**
-   * Compares the previous greatest height with the current cropperBox's height, and returns the largest
+   * Returns the data URL of the current crop box
    */
-  getGreatestHeight() {
-    let currentGreatestHeight = this.state.greatestHeight;
-    let newGreatestHeight = null;
-    let imageHeight = this.cropperInstance.cropper.cropBoxData.height;
-    if (currentGreatestHeight < imageHeight) {
-      newGreatestHeight = imageHeight;
+  getBodyPart() {
+    return this.cropperInstance.getCroppedCanvas().toDataURL();
+  }
+
+   /**
+   * Returns the greatest of contender and current height
+   */
+  getNewGreatestHeight(contenderHeight, currentHeight) {
+    if (contenderHeight > currentHeight) {
+      return contenderHeight;
+    } else {
+      return currentHeight;
     }
-    else {
-      newGreatestHeight = currentGreatestHeight;
-    }
-    return newGreatestHeight;
   }
 
   render() {
@@ -87,9 +96,7 @@ class Editor extends Component {
             X
           </button>
           <div id="cropPictureButtonContainer">
-            <button onClick={this.handleButtonClick}>
-              {buttonText}
-            </button>
+            <button onClick={this.handleButtonClick}>{buttonText}</button>
           </div>
           <Cropper
             className="imageView"
@@ -98,16 +105,16 @@ class Editor extends Component {
             viewMode={1}
             dragMode="move"
             ready={this._cropperReady}
-            preview="#preview"
+            // preview="#preview"
             movable={false}
             scalable={false}
             zoomable={false}
           />
         </div>
-        <div id="preview" />
+        {/* <div id="preview" /> 
         <img src={this.state.head} alt=""/>
         <img src={this.state.body} alt=""/>
-        <img src={this.state.legs} alt=""/>
+        <img src={this.state.legs} alt=""/> */}
       </StyledEditor>
     );
   }
@@ -119,15 +126,17 @@ const StyledEditor = styled.div.attrs({ id: "StyledEditor" })`
     bottom: 0;
     width: 100%;
     text-align: center;
+    z-index: 1;
+    pointer-events: none;
   }
 
-  #cropPictureButtonContainer {
-    z-index: 1;
+  #cropPictureButtonContainer button {
+    pointer-events: all;
   }
 
   #preview {
-    width: 500px;
-    height: 500px;
+    width: 50px;
+    height: 50px;
     overflow: hidden;
   }
 `;
