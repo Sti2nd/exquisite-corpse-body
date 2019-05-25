@@ -7,9 +7,21 @@ class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      head: null,
-      body: null,
-      legs: null,
+      head: {
+        dataURL: null,
+        height: null,
+        width: null
+      },
+      body: {
+        dataURL: null,
+        height: null,
+        width: null
+      },
+      legs: {
+        dataURL: null,
+        height: null,
+        width: null
+      },
       greatestHeight: null
     };
   }
@@ -20,13 +32,13 @@ class Editor extends Component {
   };
 
   handleButtonClick = () => {
-    if (this.state.head === null) {
+    if (this.state.head.dataURL === null) {
       // Store head
       this.setState({
         head: this.getBodyPart(),
         greatestHeight: this.cropperInstance.getData().height
       });
-    } else if (this.state.body === null) {
+    } else if (this.state.body.dataURL === null) {
       // Store body
       this.setState({
         body: this.getBodyPart(),
@@ -35,7 +47,7 @@ class Editor extends Component {
           this.state.greatestHeight
         )
       });
-    } else if (this.state.legs === null) {
+    } else if (this.state.legs.dataURL === null) {
       // Store legs
       this.setState({
         legs: this.getBodyPart(),
@@ -59,10 +71,14 @@ class Editor extends Component {
    * Returns the data URL of the current crop box
    */
   getBodyPart() {
-    return this.cropperInstance.getCroppedCanvas().toDataURL();
+    return {
+      dataURL: this.cropperInstance.getCroppedCanvas().toDataURL(),
+      height: this.cropperInstance.getData().height,
+      width: this.cropperInstance.getData().width
+    };
   }
 
-   /**
+  /**
    * Returns the greatest of contender and current height
    */
   getNewGreatestHeight(contenderHeight, currentHeight) {
@@ -75,11 +91,11 @@ class Editor extends Component {
 
   render() {
     let buttonText = "";
-    if (this.state.head === null) {
+    if (this.state.head.dataURL === null) {
       buttonText = "Select head";
-    } else if (this.state.body === null) {
+    } else if (this.state.body.dataURL === null) {
       buttonText = "Select body";
-    } else if (this.state.legs === null) {
+    } else if (this.state.legs.dataURL === null) {
       buttonText = "Select legs";
     } else {
       buttonText = "Done";

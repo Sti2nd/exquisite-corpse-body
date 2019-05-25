@@ -6,6 +6,7 @@
     "cropperjs": "^1.5.1",
     "dotenv": "^6.2.0",
     "fabric": "^2.7.0",
+    "localforage": "^1.7.3",
     "react": "^16.8.6",
     "react-cropper": "^1.2.0",
     "react-dom": "^16.8.6",

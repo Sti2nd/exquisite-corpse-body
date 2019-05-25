@@ -42,7 +42,7 @@ class Stitcher extends Component {
 
     // add head
     fabric.Image.fromURL(
-      this.props.bodyParts.head,
+      this.props.bodyParts.head.dataURL,
       img => {
         img.scale(scaleFactor).set({ top: 0 });
         fabricCanvas.add(img);
@@ -52,7 +52,7 @@ class Stitcher extends Component {
 
     // add body
     fabric.Image.fromURL(
-      this.props.bodyParts.body,
+      this.props.bodyParts.body.dataURL,
       img => {
         img.scale(scaleFactor).set({ top: 200 });
         fabricCanvas.add(img);
@@ -62,7 +62,7 @@ class Stitcher extends Component {
 
     // add legs
     fabric.Image.fromURL(
-      this.props.bodyParts.legs,
+      this.props.bodyParts.legs.dataURL,
       img => {
         img.scale(scaleFactor).set({ top: 400 });
         fabricCanvas.add(img);
