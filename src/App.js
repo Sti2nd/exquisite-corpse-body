@@ -67,13 +67,16 @@ class App extends Component {
     // Store image
     this.setState({ stitchedImageDataURL: PNGimage }, () => {
       // then store image object in localforage
-      localforage.setItem(Date.now(), {
+      localforage.setItem(Date.now() + "", {
         originalImageDataURL: this.state.originalImageDataURL,
         stitchedImageDataURL: this.state.stitchedImageDataURL,
         bodyParts: this.state.bodyParts
-      })
-      // finally show front page again
-      this.setState({ view: "app" });
+      }).then(() => {
+        // finally show front page again
+        this.setState({ view: "app" });
+      }).catch((err) => {
+        console.log(err);
+      });
     });
   };
 

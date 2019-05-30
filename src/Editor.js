@@ -28,7 +28,7 @@ class Editor extends Component {
 
   _cropperReady = () => {
     this.cropperInstance = this.refs.cropper;
-    console.log(this.cropperInstance);
+    //console.log(this.cropperInstance);
   };
 
   handleButtonClick = () => {

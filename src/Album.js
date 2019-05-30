@@ -1,34 +1,42 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
+import ImageList from "./ImageList";
+
 import localforage from "localforage";
 
 class Album extends Component {
-
   componentDidMount(){
+    let imageArray = []
     localforage.iterate((value, key, iterationNumber) => {
-      
-
-      // Remember iterate supports early exist -> can get the x first elements
-    })
+      imageArray.push([key, value]);
+      console.log(iterationNumber)
+    }).then(() => {
+      console.log("Iteration through local db completed")
+      if (imageArray.length > 0){
+        this.setState({images: imageArray});
+      }
+    }).catch((err) => {
+      console.log(err)
+    });
   }
 
   render() {
     return (
       <StyledAlbum>
         <h3>Your images</h3>
-        <img
-          src={this.state.stitchedImageDataURL}
-          alt=""
-          style={{ maxWidth: "100%", border: "1px solid black" }}
-        />
+        {this.state !== null ? 
+          <ImageList images={this.state.images}/>
+         : 
+          <p>No images found</p>
+        }
       </StyledAlbum>
     )
   }
 
 }
 
-const StyledAlbum = styled.div.attrs({ id: "StyledApp" })`
+const StyledAlbum = styled.div.attrs({ id: "StyledAlbum" })`
 `;
 
 export default Album;

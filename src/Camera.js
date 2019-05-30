@@ -66,11 +66,14 @@ class Camera extends Component {
    */
   saveAsPNG = canvas => {
     // Get an image dataURL from the canvas
-    canvas.toBlob(blob => {
+/*     canvas.toBlob(blob => {
       var imageDataURL = URL.createObjectURL(blob);
-
+      console.log(imageDataURL)
       this.props.storeOriginalPicture(imageDataURL);
-    });
+    }); */
+
+    let imageDataURL = canvas.toDataURL();
+    this.props.storeOriginalPicture(imageDataURL);
   };
 
   componentWillUnmount() {
