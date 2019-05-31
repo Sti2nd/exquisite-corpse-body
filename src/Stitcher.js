@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { fabric } from "fabric/dist/fabric";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import BackIcon from "@material-ui/icons/ArrowBackIos";
 
 class Stitcher extends Component {
   constructor(props) {
@@ -36,8 +39,10 @@ class Stitcher extends Component {
     let calculatedScale =
       (browserWindowHeight * 0.4) / this.props.bodyParts.greatestHeight;
     let scaleFactor = Math.min(calculatedScale, 1);
-    console.log("browserWindowHeight: "  + browserWindowHeight, "greatestHeight" 
-    + this.props.bodyParts.greatestHeight);
+    console.log(
+      "browserWindowHeight: " + browserWindowHeight,
+      "greatestHeight" + this.props.bodyParts.greatestHeight
+    );
     console.log("Set scale to: " + scaleFactor);
 
     // add head
@@ -145,16 +150,27 @@ class Stitcher extends Component {
   render() {
     return (
       <StyledStitcher>
-        <button
-          id="exitStitcherButton"
+        <IconButton
+          id="exitCameraButton"
           className="exitButton"
-          onClick={this.props.exitEditor}
+          onClick={this.props.exitStitcher}
+          variant="contained"
         >
-          X
-        </button>
+          <BackIcon />
+        </IconButton>
         <canvas id="fabricCanvas" />
-        <div id="stitchPictureButtonContainer">
-          <button onClick={this.handleButtonClick}>Finished stitching</button>
+        <div
+          id="stitchPictureButtonContainer"
+          className="actionButtonContainer"
+        >
+          <Button
+            onClick={this.handleButtonClick}
+            variant="contained"
+            color="primary"
+            className="actionButton"
+          >
+            Finished stitching
+          </Button>
         </div>
       </StyledStitcher>
     );
@@ -166,13 +182,6 @@ const StyledStitcher = styled.div.attrs({ id: "StyledStitcher" })`
     /* Is overrided */
     width: 0px;
     height: 0px;
-  }
-
-  #stitchPictureButtonContainer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
   }
 `;
 

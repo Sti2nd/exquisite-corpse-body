@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import Cropper from "react-cropper";
+import ReactCropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
+import IconButton from "@material-ui/core/IconButton";
+import BackIcon from "@material-ui/icons/ArrowBackIos";
+import Button from "@material-ui/core/Button";
 
 class Editor extends Component {
   constructor(props) {
@@ -104,17 +107,25 @@ class Editor extends Component {
     return (
       <StyledEditor>
         <div className="imageContainer">
-          <button
-            id="exitEditorButton"
+          <IconButton
+            id="exitCameraButton"
             className="exitButton"
-            onClick={this.props.exitEditor}
+            onClick={this.props.exitCropper}
+            variant="contained"
           >
-            X
-          </button>
-          <div id="cropPictureButtonContainer">
-            <button onClick={this.handleButtonClick}>{buttonText}</button>
+            <BackIcon />
+          </IconButton>
+          <div id="cropPictureButtonContainer" className="actionButtonContainer">
+            <Button
+              onClick={this.handleButtonClick}
+              variant="contained"
+              color="primary"
+              className="actionButton"
+            >
+              {buttonText}
+            </Button>
           </div>
-          <Cropper
+          <ReactCropper
             className="imageView"
             ref="cropper"
             src={this.props.imageDataURL}
@@ -127,10 +138,6 @@ class Editor extends Component {
             zoomable={false}
           />
         </div>
-        {/* <div id="preview" /> 
-        <img src={this.state.head} alt=""/>
-        <img src={this.state.body} alt=""/>
-        <img src={this.state.legs} alt=""/> */}
       </StyledEditor>
     );
   }
@@ -138,10 +145,6 @@ class Editor extends Component {
 
 const StyledEditor = styled.div.attrs({ id: "StyledEditor" })`
   #cropPictureButtonContainer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
     z-index: 1;
     pointer-events: none;
   }

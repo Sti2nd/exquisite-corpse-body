@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import BackIcon from "@material-ui/icons/ArrowBackIos";
 
 class Camera extends Component {
   componentDidMount() {
@@ -66,7 +69,7 @@ class Camera extends Component {
    */
   saveAsPNG = canvas => {
     // Get an image dataURL from the canvas
-/*     canvas.toBlob(blob => {
+    /*     canvas.toBlob(blob => {
       var imageDataURL = URL.createObjectURL(blob);
       console.log(imageDataURL)
       this.props.storeOriginalPicture(imageDataURL);
@@ -91,13 +94,14 @@ class Camera extends Component {
     return (
       <StyledCamera>
         <div className="imageContainer">
-          <button
+          <IconButton
             id="exitCameraButton"
             className="exitButton"
             onClick={this.props.exitCamera}
+            variant="contained"
           >
-            X
-          </button>
+            <BackIcon />
+          </IconButton>
           <video
             onLoadedData={this.setVideoStreamMetadata}
             playsInline
@@ -106,10 +110,18 @@ class Camera extends Component {
             id="cameraStreamView"
             className="imageView"
           />
-          <div id="takePictureButtonContainer">
-            <button onClick={this.takePicture} id="takePictureButton">
+          <div
+            id="takePictureButtonContainer"
+            className="actionButtonContainer"
+          >
+            <Button
+              onClick={this.takePicture}
+              className="actionButton"
+              variant="contained"
+              color="primary"
+            >
               Take picture
-            </button>
+            </Button>
           </div>
           <canvas id="hiddenCanvas" hidden />
           <img id="takenPictureFrame" alt="" />
@@ -120,13 +132,6 @@ class Camera extends Component {
 }
 
 const StyledCamera = styled.div.attrs({ id: "StyledCamera" })`
-  #takePictureButtonContainer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-  }
-
   #takenPictureFrame {
     max-width: 100%;
   }

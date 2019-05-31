@@ -1,7 +1,9 @@
 [X] crop images automatically after stitching (get rectangle including all 
 pixels of the smaller images)
 [X] set scale based on image size vs screen size (for stitching and rendering)
-[ ] save multiple originals, multiple bodyparts and multiple stitches
-[ ] create gallery of stitches (and reuse it for choosing originals?)
+[X] save multiple originals, multiple bodyparts and multiple stitches. Completed 
+using localforage on top of indexedDB.
+[X] create gallery of stitches and allow to delete them
+[ ] Allow stiching different bodyparts
 [ ] implement slideout.js sidemenubar?
 [ ] render in full size instead of screenshot (if possible)
