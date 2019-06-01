@@ -15,7 +15,9 @@ class Album extends Component {
       .then(() => {
         console.log("Iteration through local db completed");
         if (imageArray.length > 0) {
-          this.setState({ images: imageArray });
+          this.setState({ images: imageArray }, () => {
+            this.setNumImgsInDatabase(imageArray.length);
+          });
         }
       })
       .catch(err => {
@@ -23,16 +25,33 @@ class Album extends Component {
       });
   }
 
-  handleDeleteImage = (imageKey) => {
-    localforage.removeItem(imageKey, () => {
-      let imagesAfterDelete = this.state.images.filter((keyValue) => {
-        return keyValue[0] !== imageKey;
+  /**
+   * Delete image from database and keep Album state consistent
+   */
+  handleDeleteImage = imageKey => {
+    localforage
+      .removeItem(imageKey, () => {
+        let imagesAfterDelete = this.state.images.filter(keyValue => {
+          return keyValue[0] !== imageKey;
+        });
+        this.setState({ images: imagesAfterDelete }, () => {
+          this.setNumImgsInDatabase(imagesAfterDelete.length);
+        });
       })
-      this.setState({images: imagesAfterDelete})
-    }).catch((error) => {
-      console.log(error)
-    });
-  }
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  /**
+   * Pass number of images in database to parent component
+   */
+  setNumImgsInDatabase = (number) => {
+    // If state exists
+    if (this.state) {
+      this.props.setNumberOfImagesInDatabase(number);
+    }
+  };
 
   render() {
     return (

@@ -15,6 +15,7 @@ class App extends Component {
     super(props);
     this.state = {
       view: "app", //should be "app"
+      numImgsInDatabase: null,
       originalImageDataURL: null,
       stitchedImageDataURL: null,
       bodyParts: {
@@ -96,6 +97,10 @@ class App extends Component {
     });
   };
 
+  setNumberOfImagesInDatabase = (number) => {
+    this.setState({ numImgsInDatabase: number});
+  }
+
   render() {
     let viewComponent;
     if (this.state.view === "app") {
@@ -111,7 +116,7 @@ class App extends Component {
             Click to start camera
           </Button>
           <Divider variant="middle" />
-          <Album />
+          <Album setNumberOfImagesInDatabase={this.setNumberOfImagesInDatabase}/>
         </Fragment>
       );
     } else if (this.state.view === "camera") {
