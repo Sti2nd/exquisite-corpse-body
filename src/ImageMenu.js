@@ -43,8 +43,8 @@ function ImageMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleDelete}>Delete</MenuItem>
         <MenuItem onClick={handleClose}>Save</MenuItem>
+        <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
     </StyledImageMenu>
   );
