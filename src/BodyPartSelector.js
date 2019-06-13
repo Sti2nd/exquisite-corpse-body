@@ -69,13 +69,43 @@ class BodyPartSelector extends Component {
             <BackIcon />
           </IconButton>
         </Tooltip>
-        <div id="headSliderContainer">
+        <div id="headSliderContainer" className="sliderContainer">
           {this.state !== null ? (
             <Slider {...sliderSettings}>
               {this.state.images.map(keyValuePairs => {
                 return (
                   <div className="imageBox" key={keyValuePairs[0]} id={keyValuePairs[0]}>
-                    <img src={keyValuePairs[1].stitchedImageDataURL} alt="stitched" />
+                    <img src={keyValuePairs[1].bodyParts.head.dataURL} alt="stitched" />
+                  </div>
+                )})
+              }
+            </Slider>
+          ) : (
+            <p>No images found</p>
+          )}
+        </div>
+        <div id="bodySliderContainer" className="sliderContainer">
+          {this.state !== null ? (
+            <Slider {...sliderSettings}>
+              {this.state.images.map(keyValuePairs => {
+                return (
+                  <div className="imageBox" key={keyValuePairs[0]} id={keyValuePairs[0]}>
+                    <img src={keyValuePairs[1].bodyParts.body.dataURL} alt="stitched" />
+                  </div>
+                )})
+              }
+            </Slider>
+          ) : (
+            <p>No images found</p>
+          )}
+        </div>
+        <div id="legsSliderContainer" className="sliderContainer">
+          {this.state !== null ? (
+            <Slider {...sliderSettings}>
+              {this.state.images.map(keyValuePairs => {
+                return (
+                  <div className="imageBox" key={keyValuePairs[0]} id={keyValuePairs[0]}>
+                    <img src={keyValuePairs[1].bodyParts.legs.dataURL} alt="stitched" />
                   </div>
                 )})
               }
@@ -94,13 +124,29 @@ export default BodyPartSelector;
 const StyledBodyPartSelector = styled.div.attrs({
   id: "StyledBodyPartSelector"
 })`
-  #headSliderContainer {
+  .sliderContainer {
     max-width: 500px;
     margin: auto;
+  }
+
+  #headSliderContainer {
     margin-top: 1em;
   }
 
+  #bodySliderContainer {
+    margin-top: 2em;
+  }
+
+  #legsSliderContainer {
+    margin-top: 2em;
+  }
+
+  .imageBox {
+    width: 100%;
+  }
+
   .imageBox img {
-    width: 95%;
+    width: 100%;
+    margin: 1em;
   }
 `;
