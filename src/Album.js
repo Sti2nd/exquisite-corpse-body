@@ -7,16 +7,17 @@ import localforage from "localforage";
 
 class Album extends Component {
   componentDidMount() {
+    // Get all images from db
     let imageArray = [];
     localforage
-      .iterate((value, key, iterationNumber) => {
+      .iterate((value, key, _iterationNumber) => {
         imageArray.push([key, value]);
       })
       .then(() => {
         console.log("Iteration through local db completed");
         if (imageArray.length > 0) {
           this.setState({ images: imageArray }, () => {
-            this.setNumImgsInDatabase(imageArray.length);
+            this.storeNumImgs(imageArray.length);
           });
         }
       })
@@ -35,7 +36,7 @@ class Album extends Component {
           return keyValue[0] !== imageKey;
         });
         this.setState({ images: imagesAfterDelete }, () => {
-          this.setNumImgsInDatabase(imagesAfterDelete.length);
+          this.storeNumImgs(imagesAfterDelete.length);
         });
       })
       .catch(error => {
@@ -44,12 +45,12 @@ class Album extends Component {
   };
 
   /**
-   * Pass number of images in database to parent component
+   * Pass number of images to parent component
    */
-  setNumImgsInDatabase = (number) => {
+  storeNumImgs = (number) => {
     // If state exists
     if (this.state) {
-      this.props.setNumberOfImagesInDatabase(number);
+      this.props.setNumImgsInDatabase(number);
     }
   };
 

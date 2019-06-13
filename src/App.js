@@ -105,7 +105,7 @@ class App extends Component {
     });
   };
 
-  setNumberOfImagesInDatabase = number => {
+  setNumImgsInDatabase = number => {
     this.setState({ numImgsInDatabase: number });
   };
 
@@ -149,7 +149,7 @@ class App extends Component {
           {connectBodyPartsButton}
           <Divider variant="middle" />
           <Album
-            setNumberOfImagesInDatabase={this.setNumberOfImagesInDatabase}
+            setNumImgsInDatabase={this.setNumImgsInDatabase}
           />
         </Fragment>
       );
