@@ -7,5 +7,6 @@ using localforage on top of indexedDB.
 
 !!! Currently working in BodyPartSelector !!!
 [ ] Allow stiching different bodyparts
+[ ] Fix carousel not working for less than four images
 [ ] implement slideout.js sidemenubar?
 [ ] render in full size instead of screenshot (if possible)

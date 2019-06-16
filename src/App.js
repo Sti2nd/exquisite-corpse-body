@@ -78,10 +78,11 @@ class App extends Component {
    * Save a picture taken with camera
    */
   storeStitchedPicture = PNGimage => {
-    // Store image
+    // Store stitched image
+    // TODO: Use ID to store image
     this.setState({ stitchedImageDataURL: PNGimage }, () => {
       // then store image object in localforage
-      localforage
+/*       localforage
         .setItem(Date.now() + "", {
           originalImageDataURL: this.state.originalImageDataURL,
           stitchedImageDataURL: this.state.stitchedImageDataURL,
@@ -93,15 +94,25 @@ class App extends Component {
         })
         .catch(err => {
           console.log(err);
-        });
+        }); */
     });
   };
 
   storeBodyParts = bodyParts => {
     // Store bodyParts images
     this.setState({ bodyParts: bodyParts }, () => {
-      // Then show Stitcher
-      this.setState({ view: "stitcher" });
+      localforage
+      .setItem(Date.now() + "", {
+        originalImageDataURL: this.state.originalImageDataURL,
+        bodyParts: this.state.bodyParts
+      })
+      .then(() => {
+        // finally show front page again
+        this.setState({ view: "app" });
+      })
+      .catch(err => {
+        console.log(err);
+      });
     });
   };
 
