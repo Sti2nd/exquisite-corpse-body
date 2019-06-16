@@ -8,13 +8,14 @@ import Camera from "./Camera";
 import Cropper from "./Cropper";
 import Stitcher from "./Stitcher";
 import Album from "./Album";
-//import testImage from "./testImage.json";
+import BodyPartSelector from "./BodyPartSelector";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       view: "app", //should be "app"
+      numImgsInDatabase: null,
       originalImageDataURL: null,
       stitchedImageDataURL: null,
       bodyParts: {
@@ -38,8 +39,12 @@ class App extends Component {
     };
   }
 
-  handleButtonClick = () => {
+  handleStartCameraButtonClick = () => {
     this.showCamera();
+  };
+
+  handleConnectBodyPartsButtonClick = () => {
+    this.showBodyPartSelector();
   };
 
   showFrontPage = () => {
@@ -52,6 +57,10 @@ class App extends Component {
 
   showCropper = () => {
     this.setState({ view: "cropper" });
+  };
+
+  showBodyPartSelector = () => {
+    this.setState({ view: "bodyPartSelector" });
   };
 
   /**
@@ -96,22 +105,52 @@ class App extends Component {
     });
   };
 
+  setNumImgsInDatabase = number => {
+    this.setState({ numImgsInDatabase: number });
+  };
+
   render() {
+    // Show connectBodyPartsButton if there are enough images
+    let connectBodyPartsButton = null;
+    if (this.state.numImgsInDatabase > 1) {
+      connectBodyPartsButton = (
+        <Button
+          onClick={this.handleConnectBodyPartsButtonClick}
+          id="connectBodypartsButton"
+          className="AppButtons"
+          variant="contained"
+          color="primary"
+        >
+          Connect bodyparts!
+        </Button>
+      );
+    } else {
+      connectBodyPartsButton = (
+        <p>You need to take two pictures before partying</p>
+      );
+    }
+
+    // Show component based on state
     let viewComponent;
     if (this.state.view === "app") {
       viewComponent = (
         <Fragment>
           <h1>Mix Max</h1>
           <Button
-            onClick={this.handleButtonClick}
+            onClick={this.handleStartCameraButtonClick}
             id="startCameraButton"
+            className="AppButtons"
             variant="contained"
             color="primary"
           >
-            Click to start camera
+            Start camera
           </Button>
+          <br />
+          {connectBodyPartsButton}
           <Divider variant="middle" />
-          <Album />
+          <Album
+            setNumImgsInDatabase={this.setNumImgsInDatabase}
+          />
         </Fragment>
       );
     } else if (this.state.view === "camera") {
@@ -138,6 +177,10 @@ class App extends Component {
           exitStitcher={this.showCropper}
         />
       );
+    } else if (this.state.view === "bodyPartSelector"){
+      viewComponent = (
+        <BodyPartSelector exitBodyPartSelector={this.showFrontPage}/>
+      )
     }
 
     return (
@@ -153,7 +196,7 @@ const StyledApp = styled.div.attrs({ id: "StyledApp" })`
     text-align: center;
   }
 
-  #startCameraButton {
+  .AppButtons {
     margin-bottom: 2em;
   }
 

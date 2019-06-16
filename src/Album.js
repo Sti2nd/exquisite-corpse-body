@@ -7,15 +7,18 @@ import localforage from "localforage";
 
 class Album extends Component {
   componentDidMount() {
+    // Get all images from db
     let imageArray = [];
     localforage
-      .iterate((value, key, iterationNumber) => {
+      .iterate((value, key, _iterationNumber) => {
         imageArray.push([key, value]);
       })
       .then(() => {
         console.log("Iteration through local db completed");
         if (imageArray.length > 0) {
-          this.setState({ images: imageArray });
+          this.setState({ images: imageArray }, () => {
+            this.storeNumImgs(imageArray.length);
+          });
         }
       })
       .catch(err => {
@@ -23,16 +26,33 @@ class Album extends Component {
       });
   }
 
-  handleDeleteImage = (imageKey) => {
-    localforage.removeItem(imageKey, () => {
-      let imagesAfterDelete = this.state.images.filter((keyValue) => {
-        return keyValue[0] !== imageKey;
+  /**
+   * Delete image from database and keep Album state consistent
+   */
+  handleDeleteImage = imageKey => {
+    localforage
+      .removeItem(imageKey, () => {
+        let imagesAfterDelete = this.state.images.filter(keyValue => {
+          return keyValue[0] !== imageKey;
+        });
+        this.setState({ images: imagesAfterDelete }, () => {
+          this.storeNumImgs(imagesAfterDelete.length);
+        });
       })
-      this.setState({images: imagesAfterDelete})
-    }).catch((error) => {
-      console.log(error)
-    });
-  }
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  /**
+   * Pass number of images to parent component
+   */
+  storeNumImgs = (number) => {
+    // If state exists
+    if (this.state) {
+      this.props.setNumImgsInDatabase(number);
+    }
+  };
 
   render() {
     return (
