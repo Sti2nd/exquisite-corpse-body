@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import BackIcon from "@material-ui/icons/ArrowBackIos";
+import { Tooltip } from "@material-ui/core";
 
 class Camera extends Component {
   componentDidMount() {
@@ -94,14 +95,16 @@ class Camera extends Component {
     return (
       <StyledCamera>
         <div className="imageContainer">
-          <IconButton
-            id="exitCameraButton"
-            className="exitButton"
-            onClick={this.props.exitCamera}
-            variant="contained"
-          >
-            <BackIcon />
-          </IconButton>
+          <Tooltip title="Back to front-page">
+            <IconButton
+              id="exitCameraButton"
+              className="exitButton"
+              onClick={this.props.exitCamera}
+              variant="contained"
+            >
+              <BackIcon />
+            </IconButton>
+          </Tooltip>
           <video
             onLoadedData={this.setVideoStreamMetadata}
             playsInline

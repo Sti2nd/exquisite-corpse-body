@@ -59,6 +59,10 @@ class App extends Component {
     this.setState({ view: "cropper" });
   };
 
+  showStitcher = (bodyParts) => {
+    
+  }
+
   showBodyPartSelector = () => {
     this.setState({ view: "bodyPartSelector" });
   };

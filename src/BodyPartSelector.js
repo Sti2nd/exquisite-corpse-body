@@ -35,13 +35,12 @@ class BodyPartSelector extends Component {
     this.props.exitBodyPartSelector();
   };
 
-  nextHead = () => {
-    this.headSlider.slickNext();
-  };
-
-  previousHead = () => {
-    this.headSlider.slickPrev();
-  };
+  handleSelectBodyParts = () => {
+    let selectedHeadImgID = document.querySelector("#headSliderContainer .slick-center .imageBox").id;
+    let selectedBodyImgID = document.querySelector("#bodySliderContainer .slick-center .imageBox").id;
+    let selectedLegsImgID = document.querySelector("#legsSliderContainer .slick-center .imageBox").id;
+    // TODO: Get images, and send all information stitcher needs.
+  }
 
   render() {
     let sliderSettings = {
@@ -51,7 +50,6 @@ class BodyPartSelector extends Component {
       speed: 300,
       slidesToShow: 3,
       centerMode: true,
-      className: "center",
       swipeToSlide: true,
       focusOnSelect: true,
       nextArrow: <ArrowRight color="action" />,
@@ -69,20 +67,22 @@ class BodyPartSelector extends Component {
             <BackIcon />
           </IconButton>
         </Tooltip>
+        <h3>Select which body parts you want to mix</h3>
         <div id="headSliderContainer" className="sliderContainer">
           {this.state !== null ? (
-            <Slider {...sliderSettings}>
+            <Slider {...sliderSettings} afterChange={this.afterChangeHead}>
               {this.state.images.map(keyValuePairs => {
                 return (
                   <div className="imageBox" key={keyValuePairs[0]} id={keyValuePairs[0]}>
                     <img src={keyValuePairs[1].bodyParts.head.dataURL} alt="stitched" />
                   </div>
-                )})
+                )
+              })
               }
             </Slider>
           ) : (
-            <p>No images found</p>
-          )}
+              <p>No images found</p>
+            )}
         </div>
         <div id="bodySliderContainer" className="sliderContainer">
           {this.state !== null ? (
@@ -92,12 +92,13 @@ class BodyPartSelector extends Component {
                   <div className="imageBox" key={keyValuePairs[0]} id={keyValuePairs[0]}>
                     <img src={keyValuePairs[1].bodyParts.body.dataURL} alt="stitched" />
                   </div>
-                )})
+                )
+              })
               }
             </Slider>
           ) : (
-            <p>No images found</p>
-          )}
+              <p>No images found</p>
+            )}
         </div>
         <div id="legsSliderContainer" className="sliderContainer">
           {this.state !== null ? (
@@ -107,13 +108,24 @@ class BodyPartSelector extends Component {
                   <div className="imageBox" key={keyValuePairs[0]} id={keyValuePairs[0]}>
                     <img src={keyValuePairs[1].bodyParts.legs.dataURL} alt="stitched" />
                   </div>
-                )})
+                )
+              })
               }
             </Slider>
           ) : (
-            <p>No images found</p>
-          )}
+              <p>No images found</p>
+            )}
         </div>
+        <Tooltip title="Use the selected body parts">
+          <Button
+            onClick={this.handleSelectBodyParts}
+            id="selectBodyPartsButton"
+            variant="contained"
+            color="primary"
+          >
+            Continue
+          </Button>
+        </Tooltip>
       </StyledBodyPartSelector>
     );
   }
@@ -124,29 +136,51 @@ export default BodyPartSelector;
 const StyledBodyPartSelector = styled.div.attrs({
   id: "StyledBodyPartSelector"
 })`
+  .slick-slide {
+    filter: saturate(50%);
+  }
+
+  .slick-center {
+    filter: saturate(100%);
+    transition: all .3s ease;
+    transform: scale(1.25);
+  }
+
   .sliderContainer {
     max-width: 500px;
-    margin: auto;
+    /* Padding to allow for next and previous buttons */
+    padding-left: calc(1em + 25px);
+    padding-right: calc(1em + 25px);
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
+    color: black;
   }
 
   #headSliderContainer {
-    margin-top: 1em;
   }
 
   #bodySliderContainer {
-    margin-top: 2em;
+    margin-top: 1em;
   }
 
   #legsSliderContainer {
-    margin-top: 2em;
+    margin-top: 1em;
+  }
+
+  #selectBodyPartsButton {
+    margin-top: 2.5em;
   }
 
   .imageBox {
-    width: 100%;
   }
 
   .imageBox img {
-    width: 100%;
+    width: calc(100% - 2em);
     margin: 1em;
+    /* Extra top margin to allow image to grow */
+    margin-top: 2em;
   }
 `;
