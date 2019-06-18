@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component} from "react";
 import styled from "styled-components";
 import localforage from "localforage";
 import Button from "@material-ui/core/Button";
@@ -35,12 +35,42 @@ class BodyPartSelector extends Component {
     this.props.exitBodyPartSelector();
   };
 
-  handleSelectBodyParts = () => {
-    let selectedHeadImgID = document.querySelector("#headSliderContainer .slick-center .imageBox").id;
-    let selectedBodyImgID = document.querySelector("#bodySliderContainer .slick-center .imageBox").id;
-    let selectedLegsImgID = document.querySelector("#legsSliderContainer .slick-center .imageBox").id;
+  handleSelectBodyParts = async () => {
+    let selectedHeadImgID = document.querySelector(
+      "#headSliderContainer .slick-center .imageBox"
+    ).id;
+    let selectedBodyImgID = document.querySelector(
+      "#bodySliderContainer .slick-center .imageBox"
+    ).id;
+    let selectedLegsImgID = document.querySelector(
+      "#legsSliderContainer .slick-center .imageBox"
+    ).id;
     // TODO: Get images, and send all information stitcher needs.
-  }
+    let headImg = await localforage.getItem(selectedHeadImgID).catch(err => {
+      console.log(err);
+    });
+    let bodyImg = await localforage.getItem(selectedBodyImgID).catch(err => {
+      console.log(err);
+    });
+    let legsImg = await localforage.getItem(selectedLegsImgID).catch(err => {
+      console.log(err);
+    });
+    let headObject = headImg.bodyParts.head;
+    let bodyObject = bodyImg.bodyParts.body;
+    let legsObject = legsImg.bodyParts.legs;
+    let greatestHeight = Math.max(
+      headObject.height,
+      bodyObject.height,
+      legsObject.height
+    );
+    let bodyParts = {
+      head: headObject,
+      body: bodyObject,
+      legs: legsObject,
+      greatestHeight: greatestHeight
+    };
+    this.props.finishedSelecting(bodyParts);
+  };
 
   render() {
     let sliderSettings = {
@@ -73,48 +103,66 @@ class BodyPartSelector extends Component {
             <Slider {...sliderSettings} afterChange={this.afterChangeHead}>
               {this.state.images.map(keyValuePairs => {
                 return (
-                  <div className="imageBox" key={keyValuePairs[0]} id={keyValuePairs[0]}>
-                    <img src={keyValuePairs[1].bodyParts.head.dataURL} alt="stitched" />
+                  <div
+                    className="imageBox"
+                    key={keyValuePairs[0]}
+                    id={keyValuePairs[0]}
+                  >
+                    <img
+                      src={keyValuePairs[1].bodyParts.head.dataURL}
+                      alt="stitched"
+                    />
                   </div>
-                )
-              })
-              }
+                );
+              })}
             </Slider>
           ) : (
-              <p>No images found</p>
-            )}
+            <p>No images found</p>
+          )}
         </div>
         <div id="bodySliderContainer" className="sliderContainer">
           {this.state !== null ? (
             <Slider {...sliderSettings}>
               {this.state.images.map(keyValuePairs => {
                 return (
-                  <div className="imageBox" key={keyValuePairs[0]} id={keyValuePairs[0]}>
-                    <img src={keyValuePairs[1].bodyParts.body.dataURL} alt="stitched" />
+                  <div
+                    className="imageBox"
+                    key={keyValuePairs[0]}
+                    id={keyValuePairs[0]}
+                  >
+                    <img
+                      src={keyValuePairs[1].bodyParts.body.dataURL}
+                      alt="stitched"
+                    />
                   </div>
-                )
-              })
-              }
+                );
+              })}
             </Slider>
           ) : (
-              <p>No images found</p>
-            )}
+            <p>No images found</p>
+          )}
         </div>
         <div id="legsSliderContainer" className="sliderContainer">
           {this.state !== null ? (
             <Slider {...sliderSettings}>
               {this.state.images.map(keyValuePairs => {
                 return (
-                  <div className="imageBox" key={keyValuePairs[0]} id={keyValuePairs[0]}>
-                    <img src={keyValuePairs[1].bodyParts.legs.dataURL} alt="stitched" />
+                  <div
+                    className="imageBox"
+                    key={keyValuePairs[0]}
+                    id={keyValuePairs[0]}
+                  >
+                    <img
+                      src={keyValuePairs[1].bodyParts.legs.dataURL}
+                      alt="stitched"
+                    />
                   </div>
-                )
-              })
-              }
+                );
+              })}
             </Slider>
           ) : (
-              <p>No images found</p>
-            )}
+            <p>No images found</p>
+          )}
         </div>
         <Tooltip title="Use the selected body parts">
           <Button
@@ -142,7 +190,7 @@ const StyledBodyPartSelector = styled.div.attrs({
 
   .slick-center {
     filter: saturate(100%);
-    transition: all .3s ease;
+    transition: all 0.3s ease;
     transform: scale(1.25);
   }
 
@@ -155,7 +203,10 @@ const StyledBodyPartSelector = styled.div.attrs({
     margin-left: auto;
   }
 
-  .slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
+  .slick-prev:hover,
+  .slick-prev:focus,
+  .slick-next:hover,
+  .slick-next:focus {
     color: black;
   }
 

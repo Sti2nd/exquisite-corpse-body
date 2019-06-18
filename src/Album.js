@@ -14,7 +14,7 @@ class Album extends Component {
         imageArray.push([key, value]);
       })
       .then(() => {
-        console.log("Iteration through local db completed");
+        //console.log("Iteration through local db completed");
         if (imageArray.length > 0) {
           this.setState({ images: imageArray }, () => {
             this.storeNumImgs(imageArray.length);

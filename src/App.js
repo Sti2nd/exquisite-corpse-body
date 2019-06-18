@@ -59,9 +59,12 @@ class App extends Component {
     this.setState({ view: "cropper" });
   };
 
-  showStitcher = (bodyParts) => {
-    
-  }
+  showStitcher = bodyParts => {
+    this.setState({
+      bodyParts: bodyParts,
+      view: "stitcher"
+    })
+  };
 
   showBodyPartSelector = () => {
     this.setState({ view: "bodyPartSelector" });
@@ -83,32 +86,9 @@ class App extends Component {
    */
   storeStitchedPicture = PNGimage => {
     // Store stitched image
-    // TODO: Use ID to store image
-    this.setState({ stitchedImageDataURL: PNGimage }, () => {
-      // then store image object in localforage
-/*       localforage
-        .setItem(Date.now() + "", {
-          originalImageDataURL: this.state.originalImageDataURL,
-          stitchedImageDataURL: this.state.stitchedImageDataURL,
-          bodyParts: this.state.bodyParts
-        })
-        .then(() => {
-          // finally show front page again
-          this.setState({ view: "app" });
-        })
-        .catch(err => {
-          console.log(err);
-        }); */
-    });
-  };
-
-  storeBodyParts = bodyParts => {
-    // Store bodyParts images
-    this.setState({ bodyParts: bodyParts }, () => {
-      localforage
+    localforage
       .setItem(Date.now() + "", {
-        originalImageDataURL: this.state.originalImageDataURL,
-        bodyParts: this.state.bodyParts
+        stitchedImageDataURL: this.state.stitchedImageDataURL,
       })
       .then(() => {
         // finally show front page again
@@ -117,6 +97,23 @@ class App extends Component {
       .catch(err => {
         console.log(err);
       });
+  };
+
+  storeBodyParts = bodyParts => {
+    // Store bodyParts images
+    this.setState({ bodyParts: bodyParts }, () => {
+      localforage
+        .setItem(Date.now() + "", {
+          originalImageDataURL: this.state.originalImageDataURL,
+          bodyParts: this.state.bodyParts
+        })
+        .then(() => {
+          // finally show front page again
+          this.setState({ view: "app" });
+        })
+        .catch(err => {
+          console.log(err);
+        });
     });
   };
 
@@ -163,9 +160,7 @@ class App extends Component {
           <br />
           {connectBodyPartsButton}
           <Divider variant="middle" />
-          <Album
-            setNumImgsInDatabase={this.setNumImgsInDatabase}
-          />
+          <Album setNumImgsInDatabase={this.setNumImgsInDatabase} />
         </Fragment>
       );
     } else if (this.state.view === "camera") {
@@ -192,10 +187,13 @@ class App extends Component {
           exitStitcher={this.showCropper}
         />
       );
-    } else if (this.state.view === "bodyPartSelector"){
+    } else if (this.state.view === "bodyPartSelector") {
       viewComponent = (
-        <BodyPartSelector exitBodyPartSelector={this.showFrontPage}/>
-      )
+        <BodyPartSelector
+          exitBodyPartSelector={this.showFrontPage}
+          finishedSelecting={this.showStitcher}
+        />
+      );
     }
 
     return (
