@@ -4,9 +4,10 @@ pixels of the smaller images)
 [X] save multiple originals, multiple bodyparts and multiple stitches. Completed 
 using localforage on top of indexedDB.
 [X] create gallery of stitches and allow to delete them
-
-!!! Currently working in BodyPartSelector !!!
-[ ] Allow stiching different bodyparts
+[X] Allow stiching different bodyparts
+[ ] Use finished and cancel function names in all states instead of exit.
+[ ] Fix carousel on mobile
 [ ] Fix carousel not working for less than four images
+[ ] Implement download
 [ ] implement slideout.js sidemenubar?
 [ ] render in full size instead of screenshot (if possible)

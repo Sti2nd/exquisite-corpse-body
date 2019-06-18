@@ -11,10 +11,19 @@ class Album extends Component {
     let imageArray = [];
     localforage
       .iterate((value, key, _iterationNumber) => {
-        imageArray.push([key, value]);
+        if (
+          this.props.type === "stitched" &&
+          value.stitchedImageDataURL != null
+        ) {
+          imageArray.push([key, value]);
+        } else if (
+          this.props.type === "original" &&
+          value.originalImageDataURL != null
+        ) {
+          imageArray.push([key, value]);
+        }
       })
       .then(() => {
-        //console.log("Iteration through local db completed");
         if (imageArray.length > 0) {
           this.setState({ images: imageArray }, () => {
             this.storeNumImgs(imageArray.length);
@@ -47,21 +56,22 @@ class Album extends Component {
   /**
    * Pass number of images to parent component
    */
-  storeNumImgs = (number) => {
+  storeNumImgs = number => {
     // If state exists
-    if (this.state) {
-      this.props.setNumImgsInDatabase(number);
+    if (this.state && this.props.setNumOriginalsInDatabase) {
+      this.props.setNumOriginalsInDatabase(number);
     }
   };
 
   render() {
     return (
       <StyledAlbum>
-        <h3>Your images</h3>
+        <h3>{this.props.title}</h3>
         {this.state !== null ? (
           <div id="imageBoxContainer">
             <ImageList
               images={this.state.images}
+              type={this.props.type}
               handleDeleteImage={this.handleDeleteImage}
             />
           </div>

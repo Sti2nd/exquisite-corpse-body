@@ -9,10 +9,18 @@ function ImageList(props) {
   }
 
   const imageItems = imageKVs.map(keyValuePairs => {
+
+    let imageHTML = null;
+    if (props.type === "stitched"){
+      imageHTML = <img src={keyValuePairs[1].stitchedImageDataURL} alt="stitched" />
+    } else if (props.type === "original"){
+      imageHTML = <img src={keyValuePairs[1].originalImageDataURL} alt="stitched" />
+    }
+
     return (
       <div className="imageBox" key={keyValuePairs[0]} id={keyValuePairs[0]}>
         <ImageMenu handleDeleteImg={handleDeleteImage}/>
-        <img src={keyValuePairs[1].stitchedImageDataURL} alt="stitched" />
+        {imageHTML}
       </div>
     );
   });

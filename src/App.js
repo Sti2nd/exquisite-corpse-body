@@ -15,7 +15,7 @@ class App extends Component {
     super(props);
     this.state = {
       view: "app", //should be "app"
-      numImgsInDatabase: null,
+      numOriginalsInDatabase: null,
       originalImageDataURL: null,
       stitchedImageDataURL: null,
       bodyParts: {
@@ -63,7 +63,7 @@ class App extends Component {
     this.setState({
       bodyParts: bodyParts,
       view: "stitcher"
-    })
+    });
   };
 
   showBodyPartSelector = () => {
@@ -88,7 +88,7 @@ class App extends Component {
     // Store stitched image
     localforage
       .setItem(Date.now() + "", {
-        stitchedImageDataURL: PNGimage,
+        stitchedImageDataURL: PNGimage
       })
       .then(() => {
         // finally show front page again
@@ -117,14 +117,14 @@ class App extends Component {
     });
   };
 
-  setNumImgsInDatabase = number => {
-    this.setState({ numImgsInDatabase: number });
+  setNumOriginalsInDatabase = number => {
+    this.setState({ numOriginalsInDatabase: number });
   };
 
   render() {
     // Show connectBodyPartsButton if there are enough images
     let connectBodyPartsButton = null;
-    if (this.state.numImgsInDatabase > 1) {
+    if (this.state.numOriginalsInDatabase > 1) {
       connectBodyPartsButton = (
         <Button
           onClick={this.handleConnectBodyPartsButtonClick}
@@ -160,7 +160,15 @@ class App extends Component {
           <br />
           {connectBodyPartsButton}
           <Divider variant="middle" />
-          <Album setNumImgsInDatabase={this.setNumImgsInDatabase} />
+          <Album
+            title={"Your exquisite corpse bodies"}
+            type={"stitched"}
+          />
+          <Album
+            title={"Your original photos"}
+            type={"original"}
+            setNumOriginalsInDatabase={this.setNumOriginalsInDatabase}
+          />
         </Fragment>
       );
     } else if (this.state.view === "camera") {
