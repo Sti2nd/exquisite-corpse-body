@@ -88,7 +88,7 @@ class App extends Component {
     // Store stitched image
     localforage
       .setItem(Date.now() + "", {
-        stitchedImageDataURL: this.state.stitchedImageDataURL,
+        stitchedImageDataURL: PNGimage,
       })
       .then(() => {
         // finally show front page again
