@@ -186,6 +186,14 @@ const StyledStitcher = styled.div.attrs({ id: "StyledStitcher" })`
     width: 0px;
     height: 0px;
   }
+
+  #stitchPictureButtonContainer {
+    pointer-events: none;
+  }
+
+  #stitchPictureButtonContainer button {
+    pointer-events: all;
+  }
 `;
 
 export default Stitcher;

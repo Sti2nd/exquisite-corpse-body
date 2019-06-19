@@ -1,4 +1,4 @@
-import React, { Component} from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import localforage from "localforage";
 import Button from "@material-ui/core/Button";
@@ -18,7 +18,7 @@ class BodyPartSelector extends Component {
     let imageArray = [];
     localforage
       .iterate((value, key, _iterationNumber) => {
-        if (value.originalImageDataURL != null){
+        if (value.originalImageDataURL != null) {
           imageArray.push([key, value]);
         }
       })
@@ -43,7 +43,6 @@ class BodyPartSelector extends Component {
     let selectedLegsImgID = document.querySelector(
       "#legsSliderContainer .slick-center .imageBox"
     ).id;
-    // TODO: Get images, and send all information stitcher needs.
     let headImg = await localforage.getItem(selectedHeadImgID).catch(err => {
       console.log(err);
     });
@@ -71,17 +70,34 @@ class BodyPartSelector extends Component {
   };
 
   render() {
+    // Handle React Slick doesn't work when there are less images than the slidesToShow setting
+    let slidesToShowSetting = 3;
+    if (
+      this.state !== null &&
+      this.state.images.length <= slidesToShowSetting
+    ) {
+      slidesToShowSetting = 1; // This is safe because one can only get here with more than one image
+    }
+
     let sliderSettings = {
       dots: true,
       arrows: true,
       infinite: true,
       speed: 300,
-      slidesToShow: 3,
+      slidesToShow: slidesToShowSetting,
       centerMode: true,
       swipeToSlide: true,
       focusOnSelect: true,
-      nextArrow: <ArrowRight color="action" />,
-      prevArrow: <ArrowLeft color="action" />
+      nextArrow: <ArrowRight color="action" fontSize="large" />,
+      prevArrow: <ArrowLeft color="action" fontSize="large" />,
+      responsive: [
+        {
+          breakpoint: 400,
+          settings: {
+            slidesToShow: 1
+          }
+        }
+      ]
     };
 
     return (
@@ -95,7 +111,7 @@ class BodyPartSelector extends Component {
             <BackIcon />
           </IconButton>
         </Tooltip>
-        <h3>Select which body parts you want to mix</h3>
+        <h4>Select which body parts you want to mix</h4>
         <div id="headSliderContainer" className="sliderContainer">
           {this.state !== null ? (
             <Slider {...sliderSettings} afterChange={this.afterChangeHead}>
@@ -230,6 +246,10 @@ const StyledBodyPartSelector = styled.div.attrs({
     width: calc(100% - 2em);
     margin: 1em;
     /* Extra top margin to allow image to grow */
+    margin-top: 2em;
+  }
+
+  h4 {
     margin-top: 2em;
   }
 `;
