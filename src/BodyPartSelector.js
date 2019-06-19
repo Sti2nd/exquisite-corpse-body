@@ -92,7 +92,7 @@ class BodyPartSelector extends Component {
       prevArrow: <ArrowLeft color="action" fontSize="large" />,
       responsive: [
         {
-          breakpoint: 400,
+          breakpoint: 415,
           settings: {
             slidesToShow: 1
           }
