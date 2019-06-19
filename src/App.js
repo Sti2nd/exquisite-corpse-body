@@ -175,30 +175,30 @@ class App extends Component {
       viewComponent = (
         <Camera
           className="yolo"
-          exitCamera={this.showFrontPage}
-          storeOriginalPicture={this.storeOriginalPicture}
+          cancelCamera={this.showFrontPage}
+          finishedTakingPicture={this.storeOriginalPicture}
         />
       );
     } else if (this.state.view === "cropper") {
       viewComponent = (
         <Cropper
           imageDataURL={this.state.originalImageDataURL}
-          exitCropper={this.showCamera}
-          storeBodyParts={this.storeBodyParts}
+          cancelCropping={this.showCamera}
+          finishedCropping={this.storeBodyParts}
         />
       );
     } else if (this.state.view === "stitcher") {
       viewComponent = (
         <Stitcher
           bodyParts={this.state.bodyParts}
-          storeStitchedPicture={this.storeStitchedPicture}
-          exitStitcher={this.showCropper}
+          finishedStitching={this.storeStitchedPicture}
+          cancelStitcher={this.showBodyPartSelector}
         />
       );
     } else if (this.state.view === "bodyPartSelector") {
       viewComponent = (
         <BodyPartSelector
-          exitBodyPartSelector={this.showFrontPage}
+          cancelBodyPartSelector={this.showFrontPage}
           finishedSelecting={this.showStitcher}
         />
       );
@@ -234,7 +234,7 @@ const StyledApp = styled.div.attrs({ id: "StyledApp" })`
     max-height: 100%;
   }
 
-  .exitButton {
+  .cancelButton {
     position: fixed;
     top: 0;
     left: 0;

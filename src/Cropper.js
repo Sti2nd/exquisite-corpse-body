@@ -61,7 +61,7 @@ class Editor extends Component {
       });
     } else {
       // Done cropping
-      this.props.storeBodyParts({
+      this.props.finishedCropping({
         head: this.state.head,
         body: this.state.body,
         legs: this.state.legs,
@@ -108,9 +108,9 @@ class Editor extends Component {
       <StyledEditor>
         <div className="imageContainer">
           <IconButton
-            id="exitCameraButton"
-            className="exitButton"
-            onClick={this.props.exitCropper}
+            id="cancelCameraButton"
+            className="cancelButton"
+            onClick={this.props.cancelCropping}
             variant="contained"
           >
             <BackIcon />

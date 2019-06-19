@@ -4,6 +4,7 @@ import { fabric } from "fabric/dist/fabric";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import BackIcon from "@material-ui/icons/ArrowBackIos";
+import { Tooltip } from "@material-ui/core";
 
 class Stitcher extends Component {
   constructor(props) {
@@ -144,20 +145,22 @@ class Stitcher extends Component {
       height: cropRect.bottomRight.y - cropRect.topLeft.y
     });
     // Save
-    this.props.storeStitchedPicture(imageDataURL);
+    this.props.finishedStitching(imageDataURL);
   };
 
   render() {
     return (
       <StyledStitcher>
-        <IconButton
-          id="exitCameraButton"
-          className="exitButton"
-          onClick={this.props.exitStitcher}
-          variant="contained"
-        >
-          <BackIcon />
-        </IconButton>
+        <Tooltip title="Back to selecting body parts">
+          <IconButton
+            id="cancelStitcherButton"
+            className="cancelButton"
+            onClick={this.props.cancelStitcher}
+            variant="contained"
+          >
+            <BackIcon />
+          </IconButton>
+        </Tooltip>
         <canvas id="fabricCanvas" />
         <div
           id="stitchPictureButtonContainer"

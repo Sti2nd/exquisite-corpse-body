@@ -12,16 +12,18 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 class BodyPartSelector extends Component {
-  // TODO: Merge this function and the identical one in Album.js
+  // TODO: Merge this function and the identical one in Album.js ?
   componentDidMount() {
     // Get all images from db
     let imageArray = [];
     localforage
       .iterate((value, key, _iterationNumber) => {
-        imageArray.push([key, value]);
+        if (value.originalImageDataURL != null){
+          imageArray.push([key, value]);
+        }
       })
       .then(() => {
-        console.log("Iteration through local db completed");
+        //console.log("Iteration through local db completed");
         if (imageArray.length > 0) {
           this.setState({ images: imageArray });
         }
@@ -30,10 +32,6 @@ class BodyPartSelector extends Component {
         console.log(err);
       });
   }
-
-  exitBodyPartSelector = () => {
-    this.props.exitBodyPartSelector();
-  };
 
   handleSelectBodyParts = async () => {
     let selectedHeadImgID = document.querySelector(
@@ -90,8 +88,8 @@ class BodyPartSelector extends Component {
       <StyledBodyPartSelector>
         <Tooltip title="Back to front page">
           <IconButton
-            className="exitButton"
-            onClick={this.props.exitBodyPartSelector}
+            className="cancelButton"
+            onClick={this.props.cancelBodyPartSelector}
             variant="contained"
           >
             <BackIcon />

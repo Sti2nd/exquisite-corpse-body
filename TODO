@@ -5,9 +5,11 @@ pixels of the smaller images)
 using localforage on top of indexedDB.
 [X] create gallery of stitches and allow to delete them
 [X] Allow stiching different bodyparts
-[ ] Use finished and cancel function names in all states instead of exit.
+[X] Use finished and cancel function names in all states instead of exit.
 [ ] Fix carousel on mobile
 [ ] Fix carousel not working for less than four images
+[ ] Use type attribute on images instead of checking originalImageDataURL/stitchedImageDataURL is not null
+[ ] Sort images in the album descending so the lates image comes first
 [ ] Implement download
 [ ] implement slideout.js sidemenubar?
 [ ] render in full size instead of screenshot (if possible)

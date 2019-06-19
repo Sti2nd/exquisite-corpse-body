@@ -77,7 +77,7 @@ class Camera extends Component {
     }); */
 
     let imageDataURL = canvas.toDataURL();
-    this.props.storeOriginalPicture(imageDataURL);
+    this.props.finishedTakingPicture(imageDataURL);
   };
 
   componentWillUnmount() {
@@ -97,9 +97,9 @@ class Camera extends Component {
         <div className="imageContainer">
           <Tooltip title="Back to front-page">
             <IconButton
-              id="exitCameraButton"
-              className="exitButton"
-              onClick={this.props.exitCamera}
+              id="cancelCameraButton"
+              className="cancelButton"
+              onClick={this.props.cancelCamera}
               variant="contained"
             >
               <BackIcon />
