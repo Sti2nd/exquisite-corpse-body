@@ -1,4 +1,4 @@
-A web-app that let you take photos of your friends and swap out body parts with them.
+A web-app that let you take photos of your friends and swap out body parts with them. Uses localstorage in the browser, the images are never stored online.
 
 Hosted at: https://sti2nd.github.io/exquisite-corpse-body/
 
