@@ -9,8 +9,8 @@ Relies on the external libraries
 * https://github.com/localForage/localForage
 
 
-Not to self, steps to deploy:
-1. Create local branch "gh-pages" from master
+Note to self, steps to deploy:
+1. Create local branch "gh-pages" from master (optional)
 1. Remove /build from .gitignore
 1. Commit build folder
 2. `git subtree push --prefix build origin gh-pages`
